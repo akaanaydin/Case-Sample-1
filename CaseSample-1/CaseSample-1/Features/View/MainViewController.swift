@@ -11,7 +11,10 @@ import SnapKit
 class MainViewController: UIViewController {
     
     private let searchBar: UISearchBar = UISearchBar()
-    private let collectionView: UICollectionView = UICollectionView()
+    private let collectionView: UICollectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: UICollectionViewFlowLayout()
+    )
     private let segmentedControls: UISegmentedControl = UISegmentedControl(items: ["Movies", "Music", "Apps", "Books"])
 
     override func viewDidLoad() {
@@ -23,9 +26,10 @@ class MainViewController: UIViewController {
     func configure () {
         addSubviews()
         drawDesign()
-        addsSegmentedControl()
+        addSegmentedControl()
         makeSearchBar()
         makeSegmentedControl()
+        makeCollectionView()
     }
     
     func drawDesign() {
@@ -34,6 +38,9 @@ class MainViewController: UIViewController {
         searchBar.searchBarStyle = .minimal
         segmentedControls.selectedSegmentTintColor = .orange
         segmentedControls.selectedSegmentIndex = 0
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.Identifier.custom.rawValue)
     }
     
     func addSubviews() {
@@ -41,7 +48,7 @@ class MainViewController: UIViewController {
         view.addSubview(segmentedControls)
         view.addSubview(collectionView)
     }
-
+    
 }
 
 extension MainViewController {
@@ -66,13 +73,14 @@ extension MainViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(segmentedControls.snp.bottom).offset(10)
             make.left.right.equalTo(segmentedControls)
+            make.bottom.equalToSuperview().offset(-10)
         }
     }
 }
 
 extension MainViewController {
     
-    private func addsSegmentedControl() {
+    private func addSegmentedControl() {
         segmentedControls.addTarget(self, action: #selector(segmentedControlDidChange(_:)) , for: .valueChanged)
     }
     
@@ -89,6 +97,34 @@ extension MainViewController {
         default:
             print("Default")
         }
+    }
+    
+}
+
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCollectionViewCell.Identifier.custom.rawValue, for: indexPath)
+        cell.backgroundColor = .orange
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(
+            width: (view.frame.size.width/2.3),
+            height: (view.frame.size.height/3)
+        )
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
     
 }
