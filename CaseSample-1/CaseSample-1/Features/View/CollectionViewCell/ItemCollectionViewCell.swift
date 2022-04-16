@@ -7,9 +7,10 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class ItemCollectionViewCell: UICollectionViewCell {
-    
+
     enum Identifier: String {
         case custom = "ItemCollectionViewCell"
     }
@@ -18,14 +19,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
     private let nameLabel: UILabel = UILabel()
     private let priceLabel: UILabel = UILabel()
     private let releaseDateLabel: UILabel = UILabel()
-    private let image = UIImage(named: "image")
-    private let colors = [
-        UIColor.gray,
-        UIColor.red,
-        UIColor.blue,
-        UIColor.green,
-        UIColor.magenta,
-    ]
+    private let randomImage: String = "https://picsum.photos/200/300"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,6 +35,8 @@ class ItemCollectionViewCell: UICollectionViewCell {
         imageView.frame = contentView.bounds
     }
     
+   
+    
     private func configure(){
         addSubviews()
         drawDesign()
@@ -49,14 +45,22 @@ class ItemCollectionViewCell: UICollectionViewCell {
         makePriceLabel()
         makeReleaseDateLabel()
     }
+    
+    func saveModel(model: Result) {
+        nameLabel.text = model.collectionName
+        priceLabel.text = "$\(model.collectionPrice ?? 0.0)"
+        releaseDateLabel.text = String("\(model.releaseDate!)".prefix(10))
+        imageView.kf.setImage(with: URL(string: model.artworkUrl100 ?? randomImage))
+    }
+    
     private func drawDesign() {
-        imageView.image = image
-        imageView.contentMode =  .scaleAspectFit
+        nameLabel.numberOfLines = 2
+        releaseDateLabel.font = .systemFont(ofSize: 14)
+        priceLabel.font = .systemFont(ofSize: 14)
+        imageView.contentMode =  .scaleToFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = colors.randomElement()
-        nameLabel.text = "Kus Avcilari"
-        priceLabel.text = "$999"
-        releaseDateLabel.text = "01.01.2022"
+        imageView.layer.cornerRadius = 12
+
     }
     
     private func addSubviews() {
@@ -80,12 +84,13 @@ extension ItemCollectionViewCell {
         nameLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom)
             make.left.equalTo(imageView).offset(3)
+            make.right.equalTo(imageView)
         }
     }
     
     private func makePriceLabel() {
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(nameLabel.snp.bottom).offset(5)
+            make.bottom.equalTo(contentView)
             make.left.equalTo(nameLabel)
         }
     }

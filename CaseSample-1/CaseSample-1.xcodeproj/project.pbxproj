@@ -17,6 +17,11 @@
 		B90B13032806004A002D27B6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B90B13022806004A002D27B6 /* Alamofire */; };
 		B90B130B28060149002D27B6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90B130A28060149002D27B6 /* MainViewController.swift */; };
 		B926D0382807299E00313AB5 /* ItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926D0372807299E00313AB5 /* ItemCollectionViewCell.swift */; };
+		B9A7E5B0280ACF8900F1E059 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7E5AF280ACF8900F1E059 /* DetailViewController.swift */; };
+		B9A7E5B2280AD02A00F1E059 /* iTunesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7E5B1280AD02A00F1E059 /* iTunesService.swift */; };
+		B9A7E5B4280AD21800F1E059 /* iTunesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7E5B3280AD21800F1E059 /* iTunesModel.swift */; };
+		B9A7E5B6280AD61300F1E059 /* ITunesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7E5B5280AD61300F1E059 /* ITunesViewModel.swift */; };
+		B9F3CC7C280B625200871338 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B9F3CC7B280B625200871338 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +35,10 @@
 		B90B12F828060008002D27B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B90B130A28060149002D27B6 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		B926D0372807299E00313AB5 /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		B9A7E5AF280ACF8900F1E059 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		B9A7E5B1280AD02A00F1E059 /* iTunesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesService.swift; sourceTree = "<group>"; };
+		B9A7E5B3280AD21800F1E059 /* iTunesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTunesModel.swift; sourceTree = "<group>"; };
+		B9A7E5B5280AD61300F1E059 /* ITunesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITunesViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9F3CC7C280B625200871338 /* Kingfisher in Frameworks */,
 				B90B13002806003F002D27B6 /* SnapKit in Frameworks */,
 				B90B13032806004A002D27B6 /* Alamofire in Frameworks */,
 			);
@@ -107,6 +117,7 @@
 		B90B1307280600E0002D27B6 /* ModelView */ = {
 			isa = PBXGroup;
 			children = (
+				B9A7E5B5280AD61300F1E059 /* ITunesViewModel.swift */,
 			);
 			path = ModelView;
 			sourceTree = "<group>";
@@ -114,6 +125,7 @@
 		B90B1308280600EB002D27B6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B9A7E5B3280AD21800F1E059 /* iTunesModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -121,6 +133,7 @@
 		B90B1309280600FD002D27B6 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				B9A7E5B1280AD02A00F1E059 /* iTunesService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -129,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				B926D0372807299E00313AB5 /* ItemCollectionViewCell.swift */,
+				B9A7E5AF280ACF8900F1E059 /* DetailViewController.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -152,6 +166,7 @@
 			packageProductDependencies = (
 				B90B12FF2806003F002D27B6 /* SnapKit */,
 				B90B13022806004A002D27B6 /* Alamofire */,
+				B9F3CC7B280B625200871338 /* Kingfisher */,
 			);
 			productName = "CaseSample-1";
 			productReference = B90B12E728060007002D27B6 /* CaseSample-1.app */;
@@ -184,6 +199,7 @@
 			packageReferences = (
 				B90B12FE2806003F002D27B6 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				B90B13012806004A002D27B6 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				B9F3CC7A280B625200871338 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = B90B12E828060007002D27B6 /* Products */;
 			projectDirPath = "";
@@ -215,8 +231,12 @@
 				B926D0382807299E00313AB5 /* ItemCollectionViewCell.swift in Sources */,
 				B90B12EF28060007002D27B6 /* ViewController.swift in Sources */,
 				B90B12EB28060007002D27B6 /* AppDelegate.swift in Sources */,
+				B9A7E5B2280AD02A00F1E059 /* iTunesService.swift in Sources */,
+				B9A7E5B0280ACF8900F1E059 /* DetailViewController.swift in Sources */,
+				B9A7E5B4280AD21800F1E059 /* iTunesModel.swift in Sources */,
 				B90B12ED28060007002D27B6 /* SceneDelegate.swift in Sources */,
 				B90B130B28060149002D27B6 /* MainViewController.swift in Sources */,
+				B9A7E5B6280AD61300F1E059 /* ITunesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +472,14 @@
 				kind = branch;
 			};
 		};
+		B9F3CC7A280B625200871338 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -464,6 +492,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B90B13012806004A002D27B6 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		B9F3CC7B280B625200871338 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9F3CC7A280B625200871338 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

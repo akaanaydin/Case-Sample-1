@@ -8,7 +8,13 @@
 import UIKit
 import SnapKit
 
-class MainViewController: UIViewController {
+protocol ITunesOutput {
+    func saveDatas(values: [Result])
+}
+
+final class MainViewController: UIViewController {
+    
+ 
     
     private let searchBar: UISearchBar = UISearchBar()
     private let collectionView: UICollectionView = UICollectionView(
@@ -16,12 +22,16 @@ class MainViewController: UIViewController {
         collectionViewLayout: UICollectionViewFlowLayout()
     )
     private let segmentedControls: UISegmentedControl = UISegmentedControl(items: ["Movies", "Music", "Apps", "Books"])
+    
+    private lazy var results: [Result] = []
+    lazy var viewModel: IITunesViewModel = ITunesViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configure()
-
+        viewModel.setDelegate(output: self)
+        viewModel.fetchItems()
+        print(ITunesServiceEndPoint.newsPath())
     }
     func configure () {
         addSubviews()
@@ -49,6 +59,14 @@ class MainViewController: UIViewController {
         view.addSubview(collectionView)
     }
     
+}
+
+extension MainViewController: ITunesOutput {
+    func saveDatas(values: [Result]) {
+        results = values
+        collectionView.reloadData()
+        print(results.count)
+    }
 }
 
 extension MainViewController {
@@ -103,12 +121,12 @@ extension MainViewController {
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return results.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCollectionViewCell.Identifier.custom.rawValue, for: indexPath)
-        cell.backgroundColor = .orange
+        let cell: ItemCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCollectionViewCell.Identifier.custom.rawValue, for: indexPath) as! ItemCollectionViewCell
+        cell.saveModel(model: results[indexPath.row])
         return cell
     }
     
