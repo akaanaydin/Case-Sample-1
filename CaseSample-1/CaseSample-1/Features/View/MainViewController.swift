@@ -21,6 +21,7 @@ final class MainViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
     )
+    private let pageControl: UIPageControl = UIPageControl()
     private let segmentedControls: UISegmentedControl = UISegmentedControl(items: ["Movies", "Music", "Apps", "Books"])
     
     private lazy var results: [Result] = []
@@ -31,7 +32,6 @@ final class MainViewController: UIViewController {
         configure()
         viewModel.setDelegate(output: self)
         viewModel.fetchItems()
-        print(ITunesServiceEndPoint.newsPath())
     }
     func configure () {
         addSubviews()
@@ -40,12 +40,16 @@ final class MainViewController: UIViewController {
         makeSearchBar()
         makeSegmentedControl()
         makeCollectionView()
+        makePageControl()
     }
     
     func drawDesign() {
         view.backgroundColor = .white
         searchBar.placeholder = "Search"
         searchBar.searchBarStyle = .minimal
+        searchBar.delegate = self
+        pageControl.pageIndicatorTintColor = .systemGray
+        pageControl.currentPageIndicatorTintColor = .systemBlue
         segmentedControls.selectedSegmentTintColor = .orange
         segmentedControls.selectedSegmentIndex = 0
         collectionView.delegate = self
@@ -57,6 +61,7 @@ final class MainViewController: UIViewController {
         view.addSubview(searchBar)
         view.addSubview(segmentedControls)
         view.addSubview(collectionView)
+        view.addSubview(pageControl)
     }
     
 }
@@ -65,7 +70,7 @@ extension MainViewController: ITunesOutput {
     func saveDatas(values: [Result]) {
         results = values
         collectionView.reloadData()
-        print(results.count)
+        pageControl.numberOfPages = results.count / 20
     }
 }
 
@@ -91,10 +96,21 @@ extension MainViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(segmentedControls.snp.bottom).offset(10)
             make.left.right.equalTo(segmentedControls)
+            make.bottom.equalTo(pageControl.snp.top)
+        }
+    }
+    
+    private func makePageControl() {
+        pageControl.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom)
+            make.height.equalTo(50)
+            make.left.right.equalTo(segmentedControls)
             make.bottom.equalToSuperview().offset(-10)
         }
     }
+
 }
+
 
 extension MainViewController {
     
@@ -105,13 +121,13 @@ extension MainViewController {
     @objc func segmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            print("Movies")
+            ITunesService().entity = "&movie"
         case 1:
-            print("Music")
+            ITunesService().entity = "&music"
         case 2:
-            print("Apps")
+            ITunesService().entity = "&software"
         case 3:
-            print("Books")
+            ITunesService().entity = "&ebook"
         default:
             print("Default")
         }
@@ -145,4 +161,31 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return 10
     }
     
+}
+
+extension MainViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+            guard let textToSearch = searchBar.text, !textToSearch.isEmpty else {
+                return
+            }
+        var textSearch = textToSearch
+        textSearch = textToSearch.replacingOccurrences(of: " ", with: "+")
+        fetchResults(for: textSearch)
+    }
+    
+        func fetchResults(for text: String) {
+            print("Text Searched: \(text)")
+            ITunesService().fetchAllDatas(searchText: text, response: {
+                [weak self] results in
+        
+                guard let results = results, !results.isEmpty else {
+                    return
+                }
+                
+                self?.results = results
+            })
+        }
+        
+        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        }
 }

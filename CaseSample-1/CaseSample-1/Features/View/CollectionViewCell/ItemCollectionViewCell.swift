@@ -47,7 +47,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
     }
     
     func saveModel(model: Result) {
-        nameLabel.text = model.collectionName
+        nameLabel.text = model.trackName
         priceLabel.text = "$\(model.collectionPrice ?? 0.0)"
         releaseDateLabel.text = String("\(model.releaseDate!)".prefix(10))
         imageView.kf.setImage(with: URL(string: model.artworkUrl100 ?? randomImage))

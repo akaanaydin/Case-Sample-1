@@ -11,39 +11,38 @@ import Foundation
 
 enum ITunesServiceEndPoint: String {
      case BASE_URL = "https://itunes.apple.com/search?term="
-     case PATH = "ryan+reynolds"
-     case LIMIT = "&limit=20"
-
-     static func newsPath() -> String {
-         "\(BASE_URL.rawValue)\(PATH.rawValue)\(LIMIT.rawValue)"
-     }
+     case PATH 
+     case ENTITY
 }
-
 
 
 
 protocol IITunesService {
-    func fetchAllDatas(response: @escaping ([Result]?) -> Void)
+    func fetchAllDatas(searchText: String, response: @escaping ([Result]?) -> Void)
 }
 
 
 
 
-struct ITunesService: IITunesService {
+class ITunesService: IITunesService {
     let customDecoder = JSONDecoder()
     let dateFormater = DateFormatter()
-    
-    func fetchAllDatas(response: @escaping ([Result]?) -> Void) {
+    var entity = ""
+
+    func fetchAllDatas(searchText: String, response: @escaping ([Result]?) -> Void) {
+        let urlToSearch = ITunesServiceEndPoint.BASE_URL.rawValue + searchText + entity
+        
         dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         customDecoder.dateDecodingStrategy = .formatted(dateFormater)
-        
-        AF.request(ITunesServiceEndPoint.newsPath()).responseDecodable(of: ITunesModel.self, decoder: customDecoder) { model in
+        AF.request(urlToSearch).responseDecodable(of: ITunesModel.self, decoder: customDecoder) { model in
             guard let data = model.value else {
                 let err = model.error
                 print(err as Any)
                 response(nil)
                 return
             }
+            
+            print(urlToSearch)
             response(data.results)
         }
     }

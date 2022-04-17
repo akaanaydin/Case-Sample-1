@@ -34,7 +34,7 @@ final class ITunesViewModel: IITunesViewModel {
     }
     
     func fetchItems() {
-        iTunesService.fetchAllDatas { [weak self] response in
+        iTunesService.fetchAllDatas(searchText: "Harry") { [weak self] response in
             self?.iTunesResults = response ?? []
             self?.iTunesOutput?.saveDatas(values: self?.iTunesResults ?? [])
         }

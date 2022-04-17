@@ -14,14 +14,14 @@ struct ITunesModel: Codable {
 
 struct Result: Codable {
 //    let wrapperType: WrapperType?
-    let collectionName: String?
+    let trackName: String?
     let artworkUrl100: String?
     let collectionPrice: Double?
     let releaseDate: Date?
     
     enum CodingKeys: String, CodingKey {
 //          case wrapperType
-          case collectionName
+          case trackName
           case artworkUrl100, collectionPrice, releaseDate
       }
 }
